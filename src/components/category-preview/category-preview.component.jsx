@@ -14,7 +14,7 @@ const CategoryPreview = ({ title, products }) => {
             </h2>
             <Preview>
                 {products
-                    .filter((_, index) => index < 4)
+                    .filter((_, idx) => idx < 4)
                     .map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
@@ -22,4 +22,5 @@ const CategoryPreview = ({ title, products }) => {
         </CategoryPreviewContainer>
     );
 };
+
 export default CategoryPreview;

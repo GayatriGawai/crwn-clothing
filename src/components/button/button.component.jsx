@@ -1,5 +1,3 @@
-// import './button.styles';
-
 import {
     BaseButton,
     GoogleSignInButton,
@@ -23,4 +21,5 @@ const Button = ({ children, buttonType, ...otherProps }) => {
     const CustomButton = getButton(buttonType);
     return <CustomButton {...otherProps}>{children}</CustomButton>;
 };
+
 export default Button;

@@ -7,6 +7,7 @@ import {
     createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils';
+
 import { SignUpContainer } from './sign-up-form.styles';
 
 const defaultFormFields = {
@@ -15,6 +16,7 @@ const defaultFormFields = {
     password: '',
     confirmPassword: '',
 };
+
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
@@ -23,18 +25,14 @@ const SignUpForm = () => {
         setFormFields(defaultFormFields);
     };
 
-    const handleChnage = (event) => {
-        const { name, value } = event.target;
-        setFormFields({ ...formFields, [name]: value });
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (password !== confirmPassword) {
-            alert('Passwords do not matched');
+            alert('passwords do not match');
             return;
         }
+
         try {
             const { user } = await createAuthUserWithEmailAndPassword(
                 email,
@@ -45,11 +43,17 @@ const SignUpForm = () => {
             resetFormFields();
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
-                alert('Email already exists, creation failed');
+                alert('Cannot create user, email already in use');
             } else {
-                console.error('User creation encountered an error', error);
+                console.log('user creation encountered an error', error);
             }
         }
+    };
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormFields({ ...formFields, [name]: value });
     };
 
     return (
@@ -61,7 +65,7 @@ const SignUpForm = () => {
                     label="Display Name"
                     type="text"
                     required
-                    onChange={handleChnage}
+                    onChange={handleChange}
                     name="displayName"
                     value={displayName}
                 />
@@ -70,7 +74,7 @@ const SignUpForm = () => {
                     label="Email"
                     type="email"
                     required
-                    onChange={handleChnage}
+                    onChange={handleChange}
                     name="email"
                     value={email}
                 />
@@ -79,7 +83,7 @@ const SignUpForm = () => {
                     label="Password"
                     type="password"
                     required
-                    onChange={handleChnage}
+                    onChange={handleChange}
                     name="password"
                     value={password}
                 />
@@ -88,7 +92,7 @@ const SignUpForm = () => {
                     label="Confirm Password"
                     type="password"
                     required
-                    onChange={handleChnage}
+                    onChange={handleChange}
                     name="confirmPassword"
                     value={confirmPassword}
                 />
@@ -97,4 +101,5 @@ const SignUpForm = () => {
         </SignUpContainer>
     );
 };
+
 export default SignUpForm;
